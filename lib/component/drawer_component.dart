@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_marketplace/component/tile_component.dart';
 
 class DrawerComponent extends StatelessWidget {
   @override
@@ -32,17 +33,47 @@ class DrawerComponent extends StatelessWidget {
                   children: <Widget>[
                     Positioned(
                       top: 8,
-                      left: 8,
+                      left: 0,
                       child: Text("Marketplace",
                         style: TextStyle(
                           fontSize: 34,
                           fontWeight: FontWeight.bold
                         ),
                       )
+                    ),
+                    Positioned(
+                      left: 0,
+                      bottom: 0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Hi, ",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          GestureDetector(
+                            child: Text("Sign in or Log in > ",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            onTap: () {},
+                          )
+                        ],
+                      )
                     )
                   ],
                 ),
-              )
+              ),
+              Divider(),
+              TileComponent(Icons.home, "Home"),
+              TileComponent(Icons.list, "Products"),
+              TileComponent(Icons.location_on, "Market"),
+              TileComponent(Icons.playlist_add_check, "My order")
             ],
           )
         ],
