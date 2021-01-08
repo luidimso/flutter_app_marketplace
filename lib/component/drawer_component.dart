@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_marketplace/component/tile_component.dart';
 
 class DrawerComponent extends StatelessWidget {
+
+  final PageController pageController;
+
+  DrawerComponent(this.pageController);
+
   @override
 
   Widget _backgroundBuilder() => Container(
@@ -70,10 +75,10 @@ class DrawerComponent extends StatelessWidget {
                 ),
               ),
               Divider(),
-              TileComponent(Icons.home, "Home"),
-              TileComponent(Icons.list, "Products"),
-              TileComponent(Icons.location_on, "Market"),
-              TileComponent(Icons.playlist_add_check, "My order")
+              TileComponent(Icons.home, "Home", pageController, 0),
+              TileComponent(Icons.list, "Products", pageController, 1),
+              TileComponent(Icons.location_on, "Market", pageController, 2),
+              TileComponent(Icons.playlist_add_check, "My order", pageController, 3)
             ],
           )
         ],

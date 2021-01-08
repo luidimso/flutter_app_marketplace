@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_marketplace/component/drawer_component.dart';
 import 'package:flutter_app_marketplace/pages/home_page.dart';
 
 void main() {
@@ -17,10 +16,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        drawer: DrawerComponent(),
-        body: HomePage()
-      ),
+      home: HomePage(),
     );
   }
 }
