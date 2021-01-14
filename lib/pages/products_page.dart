@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_marketplace/component/product_component.dart';
+import 'package:flutter_app_marketplace/interfaces/product_interface.dart';
 
 class ProductsPage extends StatelessWidget {
 
@@ -27,16 +29,41 @@ class ProductsPage extends StatelessWidget {
               ],
             ),
           ),
-          body: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              Container(
-                color: Colors.red,
-              ),
-              Container(
-                color: Colors.green,
-              )
-            ]
+          body: FutureBuilder<QuerySnapshot>(
+            future: Firestore.instance.collection("products").document(snapshot.documentID).collection("itens").getDocuments(),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return TabBarView(
+                    physics: NeverScrollableScrollPhysics(),
+                    children: [
+                      GridView.builder(
+                        padding: EdgeInsets.all(4),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 2,
+                          childAspectRatio: 0.65
+                        ),
+                        itemCount: snapshot.data.documents.length,
+                        itemBuilder: (context, index) {
+                          return ProductComponent("grid", Product.fromDocument(snapshot.data.documents[index]));
+                        }
+                      ),
+                      ListView.builder(
+                        padding: EdgeInsets.all(4),
+                        itemCount: snapshot.data.documents.length,
+                        itemBuilder: (context, index) {
+                          return ProductComponent("list", Product.fromDocument(snapshot.data.documents[index]));
+                        }
+                      )
+                    ]
+                );
+              }
+            },
           ),
         )
     );
