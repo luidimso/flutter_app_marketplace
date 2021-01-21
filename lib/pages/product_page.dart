@@ -14,6 +14,8 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   final Product product;
 
+  String size;
+
   _ProductPageState(this.product);
 
   @override
@@ -58,6 +60,48 @@ class _ProductPageState extends State<ProductPage> {
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: mainColor
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Text("Size",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500
+                  ),
+                ),
+                SizedBox(
+                  height: 34,
+                  child: GridView(
+                    padding: EdgeInsets.symmetric(vertical: 4),
+                    scrollDirection: Axis.horizontal,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      mainAxisSpacing: 8,
+                      childAspectRatio: 0.5
+                    ),
+                    children: product.sizes.map((e) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            size = e;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            border: Border.all(
+                              color: e == size ? mainColor : Colors.grey[500],
+                              width: 3,
+                            ),
+                          ),
+                          width: 50,
+                          alignment: Alignment.center,
+                          child: Text(e),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 )
               ],
