@@ -39,8 +39,19 @@ class User extends Model {
     notifyListeners();
   }
 
+  void signout() async {
+    await _auth.signOut();
+    user = Map();
+    firebaseUser = null;
+    notifyListeners();
+  }
+
   void recoverPassword() {
 
+  }
+
+  bool isLogged() {
+    return firebaseUser != null;
   }
 
   Future<Null> _saveUser(Map<String, dynamic> user) async {

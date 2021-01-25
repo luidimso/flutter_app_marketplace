@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_marketplace/component/tile_component.dart';
+import 'package:flutter_app_marketplace/models/user_model.dart';
 import 'package:flutter_app_marketplace/pages/login_page.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class DrawerComponent extends StatelessWidget {
 
@@ -50,30 +52,39 @@ class DrawerComponent extends StatelessWidget {
                     Positioned(
                       left: 0,
                       bottom: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("Hi, ",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          GestureDetector(
-                            child: Text("Sign in or Log in > ",
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
+                      child: ScopedModelDescendant<User>(
+                        builder: (context, child, model) {
+                          print(model.isLogged());
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text("Hi ${!model.isLogged() ? "" : model.user["name"]} ",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold
+                                ),
                               ),
-                            ),
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => LoginPage()
-                              ));
-                            },
-                          )
-                        ],
+                              GestureDetector(
+                                child: Text(!model.isLogged() ? "Sign in or Log in > " : "Logout",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                onTap: () {
+                                  if(!model.isLogged()) {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) => LoginPage()
+                                    ));
+                                  } else {
+                                    model.signout();
+                                  }
+                                },
+                              )
+                            ],
+                          );
+                        },
                       )
                     )
                   ],
