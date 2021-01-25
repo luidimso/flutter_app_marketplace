@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_marketplace/component/tile_component.dart';
+import 'package:flutter_app_marketplace/pages/login_page.dart';
 
 class DrawerComponent extends StatelessWidget {
 
@@ -66,7 +67,11 @@ class DrawerComponent extends StatelessWidget {
                                   fontWeight: FontWeight.bold
                               ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => LoginPage()
+                              ));
+                            },
                           )
                         ],
                       )

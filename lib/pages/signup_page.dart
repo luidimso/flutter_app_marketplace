@@ -1,30 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_marketplace/pages/signup_page.dart';
 
-class LoginPage extends StatelessWidget {
+class SignupPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: Text("Create Account"),
         centerTitle: true,
-        actions: <Widget>[
-          FlatButton(
-              onPressed: () {
-                Navigator.of(context).pushReplacement((MaterialPageRoute(
-                  builder: (context) => SignupPage()
-                )));
-              },
-              child: Text("CREATE ACCOUNT",
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white
-                ),
-              )
-          )
-        ],
       ),
       body: Form(
         key: _formKey,
@@ -33,7 +17,19 @@ class LoginPage extends StatelessWidget {
           children: <Widget>[
             TextFormField(
               decoration: InputDecoration(
-                hintText: "Email"
+                  hintText: "Name"
+              ),
+              validator: (text) {
+                if(text.isEmpty) return "Invalid name!";
+                else return null;
+              },
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                  hintText: "Email"
               ),
               keyboardType: TextInputType.emailAddress,
               validator: (text) {
@@ -45,24 +41,26 @@ class LoginPage extends StatelessWidget {
               height: 16,
             ),
             TextFormField(
-              decoration: InputDecoration(
-                hintText: "Password"
-              ),
-              obscureText: true,
-              validator: (text) {
-                if(text.isEmpty || text.length < 6) return "Invalid password!";
-                else return null;
-              }
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: FlatButton(
-                onPressed: () {},
-                child: Text("Forgot my password",
-                  textAlign: TextAlign.right,
+                decoration: InputDecoration(
+                    hintText: "Address"
                 ),
-                padding: EdgeInsets.zero,
-              ),
+                validator: (text) {
+                  if(text.isEmpty) return "Invalid address!";
+                  else return null;
+                }
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                    hintText: "Password"
+                ),
+                obscureText: true,
+                validator: (text) {
+                  if(text.isEmpty || text.length < 6) return "Invalid password!";
+                  else return null;
+                }
             ),
             SizedBox(
               height: 16,
@@ -75,7 +73,7 @@ class LoginPage extends StatelessWidget {
 
                   }
                 },
-                child: Text("Login",
+                child: Text("Create Account",
                   style: TextStyle(
                       fontSize: 18,
                       color: Colors.white
