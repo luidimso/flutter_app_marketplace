@@ -22,11 +22,11 @@ class User extends Model {
       await _saveUser(user);
 
       onSuccess();
-      isLoading = true;
+      isLoading = false;
       notifyListeners();
     }).catchError((error) {
       onFail();
-      isLoading = true;
+      isLoading = false;
       notifyListeners();
     });
   }
