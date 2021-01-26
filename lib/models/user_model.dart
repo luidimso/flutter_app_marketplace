@@ -9,6 +9,13 @@ class User extends Model {
   FirebaseUser firebaseUser;
   Map<String, dynamic> user = Map();
 
+
+  @override
+  void addListener(VoidCallback listener) {
+    super.addListener(listener);
+    _loadUserData();
+  }
+
   void signup(Map<String, dynamic> user, String password, VoidCallback onSuccess, VoidCallback onFail) {
     isLoading = true;
     notifyListeners();
@@ -31,12 +38,26 @@ class User extends Model {
     });
   }
 
-  void signin() async {
+  void signin(String email, String password, VoidCallback onSuccess, VoidCallback onFail) async {
     isLoading = true;
     notifyListeners();
-    await Future.delayed(Duration(seconds: 3));
-    isLoading = false;
-    notifyListeners();
+    
+    _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password
+    ).then((value) async {
+      firebaseUser = value;
+
+      await _loadUserData();
+
+      onSuccess();
+      isLoading = false;
+      notifyListeners();
+    }).catchError((e) {
+      onFail();
+      isLoading = false;
+      notifyListeners();
+    });
   }
 
   void signout() async {
@@ -57,5 +78,20 @@ class User extends Model {
   Future<Null> _saveUser(Map<String, dynamic> user) async {
     this.user = user;
     await Firestore.instance.collection("users").document(firebaseUser.uid).setData(user);
+  }
+
+  Future<Null> _loadUserData() async {
+    if(firebaseUser == null) {
+      firebaseUser = await _auth.currentUser();
+    }
+
+    if(firebaseUser != null) {
+      if(user["name"] == null) {
+        DocumentSnapshot doc = await Firestore.instance.collection("users").document(firebaseUser.uid).get();
+        user = doc.data;
+      }
+    }
+
+    notifyListeners();
   }
 }

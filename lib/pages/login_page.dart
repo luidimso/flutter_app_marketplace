@@ -3,12 +3,22 @@ import 'package:flutter_app_marketplace/models/user_model.dart';
 import 'package:flutter_app_marketplace/pages/signup_page.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Login"),
         centerTitle: true,
@@ -16,13 +26,13 @@ class LoginPage extends StatelessWidget {
           FlatButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement((MaterialPageRoute(
-                  builder: (context) => SignupPage()
+                    builder: (context) => SignupPage()
                 )));
               },
               child: Text("CREATE ACCOUNT",
                 style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white
+                    fontSize: 15,
+                    color: Colors.white
                 ),
               )
           )
@@ -41,6 +51,7 @@ class LoginPage extends StatelessWidget {
               padding: EdgeInsets.all(16),
               children: <Widget>[
                 TextFormField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                       hintText: "Email"
                   ),
@@ -54,6 +65,7 @@ class LoginPage extends StatelessWidget {
                   height: 16,
                 ),
                 TextFormField(
+                    controller: _passwordController,
                     decoration: InputDecoration(
                         hintText: "Password"
                     ),
@@ -81,7 +93,7 @@ class LoginPage extends StatelessWidget {
                   child: RaisedButton(
                     onPressed: () {
                       if(_formKey.currentState.validate()) {
-                        model.signin();
+                        model.signin(_emailController.text, _passwordController.text, _onSuccess, _onFail);
                       }
                     },
                     child: Text("Login",
@@ -99,5 +111,17 @@ class LoginPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void _onSuccess() {
+    Navigator.of(context).pop();
+  }
+
+  void _onFail() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text("Fail on login"),
+      backgroundColor: Colors.redAccent,
+      duration: Duration(seconds: 3),
+    ));
   }
 }
