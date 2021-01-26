@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_marketplace/component/cart-btn_component.dart';
 import 'package:flutter_app_marketplace/component/drawer_component.dart';
 import 'package:flutter_app_marketplace/tabs/home_tab.dart';
 import 'package:flutter_app_marketplace/tabs/products_tab.dart';
@@ -13,8 +14,9 @@ class HomePage extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         Scaffold(
-            drawer: DrawerComponent(_pageController),
-            body: HomeTab()
+          drawer: DrawerComponent(_pageController),
+          body: HomeTab(),
+          floatingActionButton: CartBtnComponent(),
         ),
         Scaffold(
           appBar: AppBar(
@@ -23,6 +25,7 @@ class HomePage extends StatelessWidget {
           ),
           drawer: DrawerComponent(_pageController),
           body: ProductsTab(),
+          floatingActionButton: CartBtnComponent()
         )
       ],
     );

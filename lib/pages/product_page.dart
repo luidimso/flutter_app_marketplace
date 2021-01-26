@@ -4,6 +4,7 @@ import 'package:flutter_app_marketplace/interfaces/cart_interface.dart';
 import 'package:flutter_app_marketplace/interfaces/product_interface.dart';
 import 'package:flutter_app_marketplace/models/cart_model.dart';
 import 'package:flutter_app_marketplace/models/user_model.dart';
+import 'package:flutter_app_marketplace/pages/cart_page.dart';
 import 'package:flutter_app_marketplace/pages/login_page.dart';
 
 class ProductPage extends StatefulWidget {
@@ -123,6 +124,10 @@ class _ProductPageState extends State<ProductPage> {
                         cart.category = product.category;
 
                         CartModel.of(context).addCartItem(cart);
+
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CartPage()
+                        ));
                       } else {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => LoginPage()
