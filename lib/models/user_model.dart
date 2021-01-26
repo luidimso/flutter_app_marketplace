@@ -67,8 +67,10 @@ class User extends Model {
     notifyListeners();
   }
 
-  void recoverPassword() {
-
+  void recoverPassword(String email) {
+    _auth.sendPasswordResetEmail(
+        email: email
+    );
   }
 
   bool isLogged() {

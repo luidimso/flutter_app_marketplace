@@ -78,7 +78,22 @@ class _LoginPageState extends State<LoginPage> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if(_emailController.text.isEmpty) {
+                        _scaffoldKey.currentState.showSnackBar(SnackBar(
+                          content: Text("Enter your email for recovery"),
+                          backgroundColor: Colors.redAccent,
+                          duration: Duration(seconds: 3),
+                        ));
+                      } else {
+                        model.recoverPassword(_emailController.text);
+                        _scaffoldKey.currentState.showSnackBar(SnackBar(
+                          content: Text("Check your email"),
+                          backgroundColor: Theme.of(context).primaryColor,
+                          duration: Duration(seconds: 3),
+                        ));
+                      }
+                    },
                     child: Text("Forgot my password",
                       textAlign: TextAlign.right,
                     ),
