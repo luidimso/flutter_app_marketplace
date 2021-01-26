@@ -1,6 +1,10 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_marketplace/interfaces/cart_interface.dart';
 import 'package:flutter_app_marketplace/interfaces/product_interface.dart';
+import 'package:flutter_app_marketplace/models/cart_model.dart';
+import 'package:flutter_app_marketplace/models/user_model.dart';
+import 'package:flutter_app_marketplace/pages/login_page.dart';
 
 class ProductPage extends StatefulWidget {
   final Product product;
@@ -110,8 +114,22 @@ class _ProductPageState extends State<ProductPage> {
                 SizedBox(
                   height: 46,
                   child: RaisedButton(
-                    onPressed: size != null ? () {} : null,
-                    child: Text("Add to cart",
+                    onPressed: size != null ? () {
+                      if(User.of(context).isLogged()) {
+                        Cart cart = Cart();
+                        cart.size = size;
+                        cart.quantity = 1;
+                        cart.product = product.id;
+                        cart.category = product.category;
+
+                        CartModel.of(context).addCartItem(cart);
+                      } else {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => LoginPage()
+                        ));
+                      }
+                    } : null,
+                    child: Text(User.of(context).isLogged() ? "Add to cart" : "Login to buy",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white

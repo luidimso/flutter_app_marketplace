@@ -50,14 +50,20 @@ class ProductsPage extends StatelessWidget {
                         ),
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (context, index) {
-                          return ProductComponent("grid", Product.fromDocument(snapshot.data.documents[index]));
+                          Product product = Product.fromDocument(snapshot.data.documents[index]);
+                          product.category = this.snapshot.documentID;
+
+                          return ProductComponent("grid", product);
                         }
                       ),
                       ListView.builder(
                         padding: EdgeInsets.all(4),
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (context, index) {
-                          return ProductComponent("list", Product.fromDocument(snapshot.data.documents[index]));
+                          Product product = Product.fromDocument(snapshot.data.documents[index]);
+                          product.category = this.snapshot.documentID;
+
+                          return ProductComponent("list", product);
                         }
                       )
                     ]
