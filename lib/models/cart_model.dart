@@ -7,6 +7,7 @@ import 'package:scoped_model/scoped_model.dart';
 class CartModel extends Model {
   User user;
   List<Cart> products = [];
+  bool isLoading = false;
 
   CartModel(this.user);
 
