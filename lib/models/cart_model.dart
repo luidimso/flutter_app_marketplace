@@ -9,7 +9,11 @@ class CartModel extends Model {
   List<Cart> products = [];
   bool isLoading = false;
 
-  CartModel(this.user);
+  CartModel(this.user) {
+    if(user.isLogged()) {
+      _loadCartItems();
+    }
+  }
 
   static CartModel of(BuildContext context) => ScopedModel.of<CartModel>(context);
 
@@ -24,6 +28,24 @@ class CartModel extends Model {
   void removeCartItem(Cart cart) {
     Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").document(cart.id).delete();
     products.remove(cart);
+    notifyListeners();
+  }
+
+  void addQuantity(Cart cart) {
+    cart.quantity++;
+    Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").document(cart.id).updateData(cart.toMap());
+    notifyListeners();
+  }
+
+  void removeQuantity(Cart cart) {
+    cart.quantity--;
+    Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").document(cart.id).updateData(cart.toMap());
+    notifyListeners();
+  }
+
+  void _loadCartItems() async {
+    QuerySnapshot query = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
+    products = query.documents.map((e) => Cart.fromDocument(e)).toList();
     notifyListeners();
   }
 }

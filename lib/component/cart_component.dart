@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_marketplace/interfaces/cart_interface.dart';
 import 'package:flutter_app_marketplace/interfaces/product_interface.dart';
+import 'package:flutter_app_marketplace/models/cart_model.dart';
 
 class CartComponent extends StatelessWidget {
 
@@ -53,16 +54,22 @@ class CartComponent extends StatelessWidget {
                         IconButton(
                             icon: Icon(Icons.remove),
                             color: Theme.of(context).primaryColor,
-                            onPressed: cart.quantity > 1 ? () {} : null
+                            onPressed: cart.quantity > 1 ? () {
+                              CartModel.of(context).removeQuantity(cart);
+                            } : null
                         ),
                         Text(cart.quantity.toString()),
                         IconButton(
                             icon: Icon(Icons.add),
                             color: Theme.of(context).primaryColor,
-                            onPressed: () {}
+                            onPressed: () {
+                              CartModel.of(context).addQuantity(cart);
+                            }
                         ),
                         FlatButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            CartModel.of(context).removeCartItem(cart);
+                          },
                           child: Text("Remove"),
                           textColor: Colors.grey[500],
                         )
