@@ -8,6 +8,8 @@ class CartModel extends Model {
   User user;
   List<Cart> products = [];
   bool isLoading = false;
+  String coupon;
+  int discount = 0;
 
   CartModel(this.user) {
     if(user.isLogged()) {
@@ -47,5 +49,10 @@ class CartModel extends Model {
     QuerySnapshot query = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
     products = query.documents.map((e) => Cart.fromDocument(e)).toList();
     notifyListeners();
+  }
+
+  void setCoupon(String coupon, int discount) {
+    this.coupon = coupon;
+    this.discount = discount;
   }
 }
