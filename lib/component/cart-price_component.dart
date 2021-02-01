@@ -16,6 +16,10 @@ class CartPriceComponent extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: ScopedModelDescendant<CartModel>(
           builder: (context, child, model) {
+            double price = model.getProductsPrice();
+            double discount = model.getDiscount();
+            double shipPrice = model.getShipPrice();
+
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -32,7 +36,7 @@ class CartPriceComponent extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Subtotal"),
-                    Text("R\$ 0.00")
+                    Text("R\$ ${price.toStringAsFixed(2)}")
                   ],
                 ),
                 Divider(),
@@ -40,7 +44,7 @@ class CartPriceComponent extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Discount"),
-                    Text("R\$ 0.00")
+                    Text("R\$ ${discount.toStringAsFixed(2)}")
                   ],
                 ),
                 Divider(),
@@ -48,7 +52,7 @@ class CartPriceComponent extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Delivery"),
-                    Text("R\$ 0.00")
+                    Text("R\$ ${shipPrice.toStringAsFixed(2)}")
                   ],
                 ),
                 Divider(),
@@ -63,7 +67,7 @@ class CartPriceComponent extends StatelessWidget {
                         fontWeight: FontWeight.w500
                       ),
                     ),
-                    Text("R\$ 0.00",
+                    Text("R\$ ${(price + shipPrice - discount).toStringAsFixed(2)}",
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontSize: 16

@@ -14,6 +14,8 @@ class CartComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget _buildContent() {
+      CartModel.of(context).updateCart();
+
       return Row(
         children: <Widget>[
           Container(
