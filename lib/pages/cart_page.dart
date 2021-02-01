@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_marketplace/component/cart-price_component.dart';
 import 'package:flutter_app_marketplace/component/cart_component.dart';
 import 'package:flutter_app_marketplace/component/discount-card_component.dart';
 import 'package:flutter_app_marketplace/component/ship-card_component.dart';
@@ -97,7 +98,8 @@ class CartPage extends StatelessWidget {
                   }).toList(),
                 ),
                 DiscountCardComponent(),
-                ShipCardComponent()
+                ShipCardComponent(),
+                CartPriceComponent(() {})
               ],
             );
           }
