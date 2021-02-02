@@ -77,4 +77,43 @@ class CartModel extends Model {
   void updateCart() {
     notifyListeners();
   }
+
+  Future<String> finishOrder() async {
+    if(products.length == 0) return null;
+
+    isLoading = true;
+    notifyListeners();
+
+    double price = getProductsPrice();
+    double discount = getDiscount();
+    double shipPrice = getShipPrice();
+
+    DocumentReference order = await Firestore.instance.collection("orders").add({
+      "user": user.firebaseUser.uid,
+      "products": products.map((e) => e.toMap()).toList(),
+      "price": price,
+      "discount": discount,
+      "shipPrice": shipPrice,
+      "total": price - discount + shipPrice,
+      "status": 1
+    });
+
+    await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("orders").document(order.documentID).setData({
+      "id": order.documentID
+    });
+    
+    QuerySnapshot query = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
+    for(DocumentSnapshot doc in query.documents) {
+      doc.reference.delete();
+    }
+
+    products.clear();
+    coupon = null;
+    discount = 0;
+
+    isLoading = false;
+    notifyListeners();
+
+    return order.documentID;
+  }
 }

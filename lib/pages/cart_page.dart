@@ -99,7 +99,12 @@ class CartPage extends StatelessWidget {
                 ),
                 DiscountCardComponent(),
                 ShipCardComponent(),
-                CartPriceComponent(() {})
+                CartPriceComponent(() async {
+                  String order = await model.finishOrder();
+                  if(order != null) {
+                    print(order);
+                  }
+                })
               ],
             );
           }
