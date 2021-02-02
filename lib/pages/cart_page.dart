@@ -6,6 +6,7 @@ import 'package:flutter_app_marketplace/component/ship-card_component.dart';
 import 'package:flutter_app_marketplace/models/cart_model.dart';
 import 'package:flutter_app_marketplace/models/user_model.dart';
 import 'package:flutter_app_marketplace/pages/login_page.dart';
+import 'package:flutter_app_marketplace/pages/order_page.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartPage extends StatelessWidget {
@@ -102,7 +103,9 @@ class CartPage extends StatelessWidget {
                 CartPriceComponent(() async {
                   String order = await model.finishOrder();
                   if(order != null) {
-                    print(order);
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => OrderPage(order)
+                    ));
                   }
                 })
               ],
