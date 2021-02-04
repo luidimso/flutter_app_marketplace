@@ -94,7 +94,7 @@ class DrawerComponent extends StatelessWidget {
               TileComponent(Icons.home, "Home", pageController, 0),
               TileComponent(Icons.list, "Products", pageController, 1),
               TileComponent(Icons.location_on, "Market", pageController, 2),
-              TileComponent(Icons.playlist_add_check, "My order", pageController, 3)
+              TileComponent(Icons.playlist_add_check, "My orders", pageController, 3)
             ],
           )
         ],
