@@ -122,6 +122,7 @@ class _ProductPageState extends State<ProductPage> {
                         cart.quantity = 1;
                         cart.product = product.id;
                         cart.category = product.category;
+                        cart.productData = product;
 
                         CartModel.of(context).addCartItem(cart);
 
