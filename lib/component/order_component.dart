@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +24,17 @@ class OrderComponent extends StatelessWidget {
               );
             } else {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text("Order code: ${snapshot.data.documentID}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(_buildProductsText(snapshot.data))
                 ],
               );
             }
@@ -35,5 +42,13 @@ class OrderComponent extends StatelessWidget {
         ),
       )
     );
+  }
+
+  String _buildProductsText(DocumentSnapshot snapshot) {
+    String text = "Description:\n";
+    for(LinkedHashMap product in snapshot.data["products"]) {
+      text += "${product["quantity"]} x ${product["resume"]["title"]} (R\$ ${product["resume"]["price"].toStringAsFixed(2)})\n";
+    }
+    return text += "Total R\$ ${snapshot.data["total"].toStringAsFixed(2)}";
   }
 }
