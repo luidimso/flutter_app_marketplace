@@ -3,6 +3,7 @@ import 'package:flutter_app_marketplace/component/cart-btn_component.dart';
 import 'package:flutter_app_marketplace/component/drawer_component.dart';
 import 'package:flutter_app_marketplace/tabs/home_tab.dart';
 import 'package:flutter_app_marketplace/tabs/orders_tab.dart';
+import 'package:flutter_app_marketplace/tabs/places_tab.dart';
 import 'package:flutter_app_marketplace/tabs/products_tab.dart';
 
 class HomePage extends StatelessWidget {
@@ -28,7 +29,14 @@ class HomePage extends StatelessWidget {
           body: ProductsTab(),
           floatingActionButton: CartBtnComponent()
         ),
-        Container(),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Marketplaces"),
+            centerTitle: true,
+          ),
+          drawer: DrawerComponent(_pageController),
+          body: PlacesTab(),
+        ),
         Scaffold(
           appBar: AppBar(
             title: Text("My orders"),
